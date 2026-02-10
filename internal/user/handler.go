@@ -20,6 +20,7 @@ type createUserRequest struct {
 }
 
 func (h *Handler) CreateUser(c *gin.Context) {
+
 	var req createUserRequest
 
 	if err := c.ShouldBindJSON(&req); err != nil {
@@ -27,15 +28,21 @@ func (h *Handler) CreateUser(c *gin.Context) {
 		return
 	}
 
-	user := h.service.CreateUser(req.Name, req.Email)
+	user, err := h.service.CreateUser(req.Name, req.Email)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
 	c.JSON(http.StatusCreated, user)
 }
 
 func (h *Handler) GetUser(c *gin.Context) {
+
 	id := c.Param("id")
 
-	user, ok := h.service.GetUser(id)
-	if !ok {
+	user, err := h.service.GetUser(id)
+	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "user not found"})
 		return
 	}
