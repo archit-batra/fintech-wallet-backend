@@ -1,0 +1,6 @@
+POST http://localhost:8081/wallets/1/add
+Content-Type: application/json
+
+{
+  "amount": 5000
+}
