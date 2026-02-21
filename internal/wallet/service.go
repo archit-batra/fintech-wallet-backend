@@ -19,3 +19,7 @@ func (s *Service) AddMoney(userID int, amount int64) error {
 func (s *Service) GetWallet(userID int) (Wallet, error) {
 	return s.repo.GetWallet(userID)
 }
+
+func (s *Service) Transfer(fromID, toID int, amount int64) error {
+	return s.repo.Transfer(fromID, toID, amount)
+}

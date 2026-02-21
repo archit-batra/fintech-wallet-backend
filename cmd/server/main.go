@@ -41,6 +41,7 @@ func main() {
 	router.POST("/wallets/:userId", walletHandler.CreateWallet)
 	router.POST("/wallets/:userId/add", walletHandler.AddMoney)
 	router.GET("/wallets/:userId", walletHandler.GetWallet)
+	router.POST("/wallets/transfer", walletHandler.Transfer)
 
 	router.Run(":8081")
 }

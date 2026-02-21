@@ -63,3 +63,27 @@ func (h *Handler) GetWallet(c *gin.Context) {
 
 	c.JSON(http.StatusOK, wallet)
 }
+
+type transferRequest struct {
+	FromUser int   `json:"from_user"`
+	ToUser   int   `json:"to_user"`
+	Amount   int64 `json:"amount"`
+}
+
+func (h *Handler) Transfer(c *gin.Context) {
+
+	var req transferRequest
+
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	err := h.service.Transfer(req.FromUser, req.ToUser, req.Amount)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"status": "transfer successful"})
+}
