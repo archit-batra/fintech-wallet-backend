@@ -3,6 +3,6 @@ Content-Type: application/json
 
 {
   "from_user": 1,
-  "to_user": 3,
+  "to_user": 2,
   "amount": 1000
 }
