@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/archit-batra/fintech-wallet-backend/internal/events"
 	"github.com/gin-gonic/gin"
 )
 
@@ -83,6 +84,11 @@ func (h *Handler) Transfer(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
+	}
+
+	events.EventQueue <- events.Event{
+		Type: "transfer_completed",
+		Data: "transfer executed",
 	}
 
 	c.JSON(http.StatusOK, gin.H{"status": "transfer successful"})
