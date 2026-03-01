@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/archit-batra/fintech-wallet-backend/internal/events"
+	"github.com/archit-batra/fintech-wallet-backend/internal/infra"
 	"github.com/gin-gonic/gin"
 )
 
@@ -86,10 +86,13 @@ func (h *Handler) Transfer(c *gin.Context) {
 		return
 	}
 
-	events.EventQueue <- events.Event{
-		Type: "transfer_completed",
-		Data: "transfer executed",
-	}
+	redisClient := infra.NewRedisClient()
+
+	redisClient.LPush(
+		infra.Ctx,
+		"transfer_queue",
+		"transfer_completed",
+	)
 
 	c.JSON(http.StatusOK, gin.H{"status": "transfer successful"})
 }
