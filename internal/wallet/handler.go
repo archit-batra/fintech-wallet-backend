@@ -1,9 +1,12 @@
 package wallet
 
 import (
+	"encoding/json"
 	"net/http"
 	"strconv"
+	"time"
 
+	"github.com/archit-batra/fintech-wallet-backend/internal/events"
 	"github.com/archit-batra/fintech-wallet-backend/internal/infra"
 	"github.com/gin-gonic/gin"
 )
@@ -86,12 +89,22 @@ func (h *Handler) Transfer(c *gin.Context) {
 		return
 	}
 
+	event := events.TransferEvent{
+		EventType: "transfer_completed",
+		FromUser:  req.FromUser,
+		ToUser:    req.ToUser,
+		Amount:    req.Amount,
+		Timestamp: time.Now(),
+	}
+
+	payload, _ := json.Marshal(event)
+
 	redisClient := infra.NewRedisClient()
 
 	redisClient.LPush(
 		infra.Ctx,
 		"transfer_queue",
-		"transfer_completed",
+		payload,
 	)
 
 	c.JSON(http.StatusOK, gin.H{"status": "transfer successful"})
