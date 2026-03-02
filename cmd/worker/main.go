@@ -9,9 +9,9 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/archit-batra/fintech-wallet-backend/internal/audit"
-	"github.com/archit-batra/fintech-wallet-backend/internal/events"
-	"github.com/archit-batra/fintech-wallet-backend/internal/infra"
+	"github.com/archit-batra/go-backend-platform/internal/audit"
+	"github.com/archit-batra/go-backend-platform/internal/events"
+	"github.com/archit-batra/go-backend-platform/internal/infra"
 	_ "github.com/lib/pq"
 )
 

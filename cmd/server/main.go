@@ -10,9 +10,9 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/archit-batra/fintech-wallet-backend/internal/infra"
-	"github.com/archit-batra/fintech-wallet-backend/internal/user"
-	"github.com/archit-batra/fintech-wallet-backend/internal/wallet"
+	"github.com/archit-batra/go-backend-platform/internal/infra"
+	"github.com/archit-batra/go-backend-platform/internal/user"
+	"github.com/archit-batra/go-backend-platform/internal/wallet"
 	"github.com/gin-gonic/gin"
 	_ "github.com/lib/pq"
 )

@@ -6,8 +6,8 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/archit-batra/fintech-wallet-backend/internal/events"
-	"github.com/archit-batra/fintech-wallet-backend/internal/infra"
+	"github.com/archit-batra/go-backend-platform/internal/events"
+	"github.com/archit-batra/go-backend-platform/internal/infra"
 	"github.com/gin-gonic/gin"
 )
 
