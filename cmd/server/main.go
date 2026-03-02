@@ -10,6 +10,7 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/archit-batra/fintech-wallet-backend/internal/infra"
 	"github.com/archit-batra/fintech-wallet-backend/internal/user"
 	"github.com/archit-batra/fintech-wallet-backend/internal/wallet"
 	"github.com/gin-gonic/gin"
@@ -26,12 +27,12 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer db.Close()
+
+	redisClient := infra.NewRedisClient()
+	defer redisClient.Close()
 
 	router := gin.Default()
-
-	router.GET("/health", func(c *gin.Context) {
-		c.JSON(200, gin.H{"status": "ok"})
-	})
 
 	userRepo := user.NewRepository(db)
 	userService := user.NewService(userRepo)
@@ -48,6 +49,29 @@ func main() {
 	router.POST("/wallets/:userId/add", walletHandler.AddMoney)
 	router.GET("/wallets/:userId", walletHandler.GetWallet)
 	router.POST("/wallets/transfer", walletHandler.Transfer)
+
+	router.GET("/health", func(c *gin.Context) {
+
+		dbStatus := "up"
+		redisStatus := "up"
+		systemStatus := "ok"
+
+		if err := db.Ping(); err != nil {
+			dbStatus = "down"
+			systemStatus = "degraded"
+		}
+
+		if err := redisClient.Ping(context.Background()).Err(); err != nil {
+			redisStatus = "down"
+			systemStatus = "degraded"
+		}
+
+		c.JSON(200, gin.H{
+			"status":   systemStatus,
+			"database": dbStatus,
+			"redis":    redisStatus,
+		})
+	})
 
 	srv := &http.Server{
 		Addr:    ":8081",
