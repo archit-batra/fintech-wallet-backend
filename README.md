@@ -55,13 +55,21 @@ This project focuses on backend system design, reliability, and infrastructure p
 ## Project Structure
 
 cmd/server → API entrypoint
+
 cmd/worker → Background worker service
+
 internal/user → User domain
+
 internal/wallet → Wallet domain
+
 internal/audit → Audit logging
+
 internal/events → Event models
+
 internal/infra → Infrastructure (Redis client)
+
 db/init → Database schema
+
 api-test → HTTP request examples
 
 ---
