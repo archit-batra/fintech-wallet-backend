@@ -8,21 +8,21 @@ This project focuses on backend system design, reliability, and infrastructure p
 
 ## Architecture Overview
 
-API Service
-- REST APIs using Gin
-- PostgreSQL for core transactional data
-- Redis for event queueing
+### API Service
+- REST APIs built using **Gin**
+- **PostgreSQL** for transactional data
+- **Redis** for event queueing
 
-Worker Service
+### Worker Service
 - Consumes events from Redis
 - Persists audit logs asynchronously
 - Supports graceful shutdown
 
-This demonstrates:
+### Concepts Demonstrated
 - Atomic database transactions
 - Row-level locking for concurrency safety
 - Event-driven architecture
-- Eventual consistency pattern
+- Eventual consistency
 - Background job processing
 
 ---
@@ -30,7 +30,7 @@ This demonstrates:
 ## Tech Stack
 
 - Go
-- Gin
+- Gin (HTTP framework)
 - PostgreSQL
 - Redis
 - Docker
@@ -45,24 +45,24 @@ This demonstrates:
 - Atomic money transfers using DB transactions
 - Row-level locking to prevent race conditions
 - Redis-based async event queue
-- Background worker service
+- Background worker for event processing
 - Audit logging via eventual consistency
 - Health checks for DB and Redis
-- Graceful shutdown handling
+- Graceful shutdown support
 
 ---
 
 ## Project Structure
 
-cmd/server        - API entrypoint  
-cmd/worker        - Background worker service  
-internal/user     - User domain  
-internal/wallet   - Wallet domain  
-internal/audit    - Audit logging  
-internal/events   - Event models  
-internal/infra    - Infrastructure (Redis client)  
-db/init           - Database schema  
-api-test          - HTTP request examples  
+cmd/server → API entrypoint
+cmd/worker → Background worker service
+internal/user → User domain
+internal/wallet → Wallet domain
+internal/audit → Audit logging
+internal/events → Event models
+internal/infra → Infrastructure (Redis client)
+db/init → Database schema
+api-test → HTTP request examples
 
 ---
 
@@ -71,21 +71,21 @@ api-test          - HTTP request examples
 Start infrastructure:
 docker compose up -d
 
-Run API:
+Run API server:
 go run cmd/server/main.go
 
-Run Worker:
+Run worker:
 go run cmd/worker/main.go
 
 ---
 
 ## Example Endpoints
 
-Create user:
+Create user
 POST /users
 
-Transfer funds:
+Transfer funds
 POST /wallets/transfer
 
-Health check:
+Health check
 GET /health
